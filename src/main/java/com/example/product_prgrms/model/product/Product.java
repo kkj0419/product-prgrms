@@ -36,7 +36,6 @@ public class Product {
         if (stock >= 0) {
             this.stock = stock;
         } else {
-            //TODO 재고입력예외
             throw new InvalidProductStockException();
         }
     }

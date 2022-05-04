@@ -30,8 +30,8 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public Product update(Product product) {
-        jdbcTemplate.update("UPDATE products SET(stock, description, productStatus) = (:stock, :description, :productStatus)"
-        +"where product_id = :productId", toParamMap(product));
+        jdbcTemplate.update("UPDATE products SET stock = :stock , description = :description, product_status = :productStatus"
+        +" where product_id = :productId", toParamMap(product));
         return product;
     }
 
