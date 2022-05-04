@@ -1,5 +1,6 @@
 package com.example.product_prgrms.model.product;
 
+import com.example.product_prgrms.exception.InvalidProductStockException;
 import lombok.Getter;
 
 @Getter
@@ -31,12 +32,12 @@ public class Product {
         this.productStatus = productStatus;
     }
 
-    public void changeStock(int stock) {
+    public void changeStock(int stock) throws InvalidProductStockException {
         if (stock >= 0) {
             this.stock = stock;
         } else {
             //TODO 재고입력예외
-            throw new IllegalArgumentException("stock input error");
+            throw new InvalidProductStockException();
         }
     }
 

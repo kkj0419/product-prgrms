@@ -1,5 +1,6 @@
 package com.example.product_prgrms.service;
 
+import com.example.product_prgrms.exception.InvalidProductStockException;
 import com.example.product_prgrms.exception.OrderInsertException;
 import com.example.product_prgrms.model.order.OrderDTO;
 import com.example.product_prgrms.model.order.OrderItem;
@@ -24,7 +25,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void createOrder(OrderRequest orderRequest) throws OrderInsertException {
+    public void createOrder(OrderRequest orderRequest) throws OrderInsertException, InvalidProductStockException {
         for (OrderItem item : orderRequest.items) {
             productService.changeProductStock(item);
         }

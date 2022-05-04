@@ -1,5 +1,6 @@
 package com.example.product_prgrms.controller;
 
+import com.example.product_prgrms.exception.InvalidProductStockException;
 import com.example.product_prgrms.exception.OrderInsertException;
 import com.example.product_prgrms.model.order.OrderDTO;
 import com.example.product_prgrms.model.order.OrderListDTO;
@@ -25,8 +26,10 @@ public class RestOrderController {
     public ResponseEntity<String> makeOrder(@RequestBody OrderRequest request) {
         try {
             orderService.createOrder(request);
-        }catch (OrderInsertException e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (OrderInsertException e) {
+            return new ResponseEntity<>(new String("주문 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (InvalidProductStockException e) {
+            return new ResponseEntity<>(new String("재고가 없습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(new String("주문 생성"), HttpStatus.OK);
     }
