@@ -1,10 +1,10 @@
 package com.example.product_prgrms.repository;
 
 import com.example.product_prgrms.exception.OrderInsertException;
-import com.example.product_prgrms.model.Email;
-import com.example.product_prgrms.model.Order;
-import com.example.product_prgrms.model.OrderItem;
-import com.example.product_prgrms.model.OrderStatus;
+import com.example.product_prgrms.model.order.Email;
+import com.example.product_prgrms.model.order.Order;
+import com.example.product_prgrms.model.order.OrderItem;
+import com.example.product_prgrms.model.order.OrderStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
