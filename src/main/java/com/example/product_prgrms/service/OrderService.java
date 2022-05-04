@@ -29,7 +29,15 @@ public class OrderService {
         for (OrderItem item : orderRequest.items) {
             productService.changeProductStock(item);
         }
-        orderRepository.insert(orderRequest.toEntity());
+
+        var findOne= orderRepository.findByEmail(orderRequest.email);
+        if (findOne.isEmpty()) {
+            orderRepository.insert(orderRequest.toEntity());
+        } else {
+            var updatedOne= findOne.get();
+            updatedOne.addItems(orderRequest.items);
+            orderRepository.updateOrderItems(updatedOne, orderRequest.items);
+        }
     }
 
     public OrderDTO findOrderById(long id){

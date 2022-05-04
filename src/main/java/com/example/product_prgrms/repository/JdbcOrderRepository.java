@@ -54,6 +54,15 @@ public class JdbcOrderRepository implements OrderRepository {
         return order;
     }
 
+    @Override
+    public Order updateOrderItems(Order order, List<OrderItem> items ) {
+        for (OrderItem item : items) {
+            insertItem(item,order.getOrderId());
+        }
+        jdbcTemplate.update("UPDATE orders SET updated_at = :updatedAt", toOrderParamMap(order));
+        return order;
+    }
+
     private void insertItem(OrderItem item, long orderId) {
         var orderItemSource = toOrderItemParamMap(item, orderId);
         jdbcTemplate.update("INSERT INTO order_items(order_id, product_id, price, quantity)"
@@ -69,7 +78,6 @@ public class JdbcOrderRepository implements OrderRepository {
     public Optional<Order> findById(long orderId) {
 
         Optional<Order> findOne;
-        var items = findItemsByOrderId(orderId);
         try{
             findOne = Optional.ofNullable(
                     jdbcTemplate.queryForObject("SELECT * FROM orders where order_id = :orderId",
@@ -78,14 +86,30 @@ public class JdbcOrderRepository implements OrderRepository {
             logger.error("Got Empty result by id {} ", orderId);
             return Optional.empty();
         }
+        var items = findItemsByOrderId(orderId);
         findOne.get().addItems(items);
         return findOne;
     }
 
+    @Override
+    public Optional<Order> findByEmail(String email) {
+        Optional<Order> findOne;
+        try {
+            findOne = Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM orders WHERE email = :email",
+                    Collections.singletonMap("email", email), orderRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got Empty result by email {} ", email);
+            return Optional.empty();
+        }
+        var items = findItemsByOrderId(findOne.get().getOrderId());
+        findOne.get().addItems(items);
+        return findOne;
+    }
+
+
     private List<OrderItem> findItemsByOrderId(long orderId) {
         return jdbcTemplate.query("SELECT * FROM order_items where order_id = :orderId", Collections.singletonMap("orderId", orderId), orderItemRowMapper);
     }
-
 
     private SqlParameterSource toOrderParamMap(Order order) {
         var source = new MapSqlParameterSource();
