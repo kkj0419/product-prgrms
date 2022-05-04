@@ -1,6 +1,4 @@
-package com.example.product_prgrms.model;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package com.example.product_prgrms.model.product;
 
 public class ProductRequest {
 

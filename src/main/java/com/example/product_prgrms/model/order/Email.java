@@ -1,4 +1,4 @@
-package com.example.product_prgrms.model;
+package com.example.product_prgrms.model.order;
 
 import lombok.Getter;
 import org.springframework.util.Assert;
@@ -22,10 +22,7 @@ public class Email {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Email{");
-        sb.append("'").append(address).append("'");
-        sb.append('}');
-        return sb.toString();
+        return address;
     }
 
     @Override

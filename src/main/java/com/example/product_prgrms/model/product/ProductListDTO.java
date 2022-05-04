@@ -1,4 +1,4 @@
-package com.example.product_prgrms.model;
+package com.example.product_prgrms.model.product;
 
 import lombok.Getter;
 

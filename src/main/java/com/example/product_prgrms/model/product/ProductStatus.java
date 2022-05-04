@@ -1,4 +1,4 @@
-package com.example.product_prgrms.model;
+package com.example.product_prgrms.model.product;
 
 public enum ProductStatus {
     REGULAR_SALE,
