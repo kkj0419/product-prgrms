@@ -40,13 +40,12 @@ public class Product {
         }
     }
 
-    //TODO 여유 있을 때 수정 기능 추가
     public void changeDescription(String description) {
         this.description = description;
     }
 
-    public static ProductListDTO toListDTO(Product product) {
-        return new ProductListDTO(product.getProductId(), product.getProductName(), product.getStock(), product.getPrice(), product.getDescription(), product.getProductStatus().toString());
+    public ProductListDTO toListDTO() {
+        return new ProductListDTO(productId, productName, stock, price, description, productStatus.toString());
     }
 
 }

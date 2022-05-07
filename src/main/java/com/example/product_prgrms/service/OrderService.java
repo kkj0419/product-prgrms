@@ -2,16 +2,12 @@ package com.example.product_prgrms.service;
 
 import com.example.product_prgrms.exception.InvalidProductStockException;
 import com.example.product_prgrms.exception.OrderInsertException;
-import com.example.product_prgrms.model.order.OrderDTO;
-import com.example.product_prgrms.model.order.OrderItem;
-import com.example.product_prgrms.model.order.OrderListDTO;
-import com.example.product_prgrms.model.order.OrderRequest;
+import com.example.product_prgrms.model.order.*;
 import com.example.product_prgrms.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -46,7 +42,7 @@ public class OrderService {
     }
 
     public List<OrderListDTO> findAllOrders(){
-        return orderRepository.findAll().stream().map(order -> order.toListDTO()).collect(Collectors.toList());
+        return orderRepository.findAll().stream().map(Order::toListDTO).toList();
     }
 
 }

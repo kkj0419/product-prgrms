@@ -27,15 +27,15 @@ public class RestOrderController {
         try {
             orderService.createOrder(request);
         } catch (OrderInsertException e) {
-            return new ResponseEntity<>(new String("주문 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("주문 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (InvalidProductStockException e) {
-            return new ResponseEntity<>(new String("재고가 없습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("재고가 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(new String("주문 생성"), HttpStatus.OK);
+        return new ResponseEntity<>("주문 생성", HttpStatus.OK);
     }
 
     @GetMapping("/orders")
-    public List<OrderListDTO> getOrderList(){
+    public List<OrderListDTO> getOrderList() {
         return orderService.findAllOrders();
     }
 
@@ -43,7 +43,7 @@ public class RestOrderController {
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable long id) {
         try {
             return new ResponseEntity<>(orderService.findOrderById(id), HttpStatus.OK);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

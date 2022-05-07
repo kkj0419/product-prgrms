@@ -38,7 +38,6 @@ public class Order {
         this.updatedAt = LocalDateTime.now();
     }
 
-    //TODO order 통합
     public void addItems(List<OrderItem> items) {
         for(OrderItem item : items){
             orderItems.add(item);
