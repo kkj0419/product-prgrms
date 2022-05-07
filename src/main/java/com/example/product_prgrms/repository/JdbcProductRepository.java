@@ -51,6 +51,11 @@ public class JdbcProductRepository implements ProductRepository {
         }
     }
 
+    @Override
+    public List<Product> findByProductStatus(ProductStatus status) {
+        return jdbcTemplate.query("SELECT * FROM products where product_status = :productStatus", Collections.singletonMap("productStatus", status.toString()), productRowMapper);
+    }
+
 
     private static final RowMapper<Product> productRowMapper = (resultSet, i) -> {
         long productId = resultSet.getLong("product_id");

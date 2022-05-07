@@ -5,15 +5,18 @@ import com.example.product_prgrms.model.order.OrderItem;
 import com.example.product_prgrms.model.product.Product;
 import com.example.product_prgrms.model.product.ProductListDTO;
 import com.example.product_prgrms.model.product.ProductRequest;
+import com.example.product_prgrms.model.product.ProductStatus;
 import com.example.product_prgrms.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
 
+    private static final Logger logger= LoggerFactory.getLogger(ProductService.class);
     private final ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
@@ -25,7 +28,18 @@ public class ProductService {
     }
 
     public List<ProductListDTO> findAllProducts(){
-        return productRepository.findAll().stream().map(Product::toListDTO).collect(Collectors.toList());
+        return productRepository.findAll().stream().map(Product::toListDTO).toList();
+    }
+
+    public List<ProductListDTO> search(String searchType, String searchKeyword) {
+        switch (searchType) {
+            case "STATUS":
+                return productRepository.findByProductStatus(ProductStatus.valueOf(searchKeyword))
+                        .stream().map(Product::toListDTO).toList();
+            default:
+                logger.error("Got Invalid SearchType : {}", searchType);
+                throw new IllegalArgumentException();
+        }
     }
 
     public void createProduct(ProductRequest productRequest){

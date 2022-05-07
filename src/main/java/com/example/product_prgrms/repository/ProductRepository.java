@@ -1,6 +1,7 @@
 package com.example.product_prgrms.repository;
 
 import com.example.product_prgrms.model.product.Product;
+import com.example.product_prgrms.model.product.ProductStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +15,7 @@ public interface ProductRepository {
     List<Product> findAll();
 
     Optional<Product> findById(long id);
+
+    List<Product> findByProductStatus(ProductStatus status);
 
 }

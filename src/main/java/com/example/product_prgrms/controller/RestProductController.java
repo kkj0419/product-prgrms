@@ -21,7 +21,7 @@ public class RestProductController {
     }
 
     @GetMapping("/products")
-    public List<ProductListDTO> getProductList(){
+    public List<ProductListDTO> getProductList() {
         return productService.findAllProducts();
     }
 
@@ -33,5 +33,10 @@ public class RestProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(new String("생성 성공".getBytes(), StandardCharsets.UTF_8), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/search")
+    public List<ProductListDTO> getSearchProductList(@RequestParam String searchType, @RequestParam String searchKeyword) {
+        return productService.search(searchType, searchKeyword);
     }
 }
