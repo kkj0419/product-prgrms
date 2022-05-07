@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+
+/*custom*/
+#productImage {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+#productName {
+  font-weight: bold;
+  font-size: larger;
+}
+
+#titleImage {
+
+}
+
+#sourceLink {
+  font-size: xx-small;
+  text-align: right;
+}
