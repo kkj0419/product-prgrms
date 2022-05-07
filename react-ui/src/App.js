@@ -16,18 +16,43 @@ function App() {
             .then(v => setProducts(v.data));
     }, []);
 
-    const handleAddClicked = () => {
-
+    const handleAddClicked = productId => {
+        const product = products.find(v=> v.productId === productId);
+        const found =items.find(v => v.productId === productId);
+        const updatedItems=
+            found ? items.map(v => (v.productId ===productId) ? {...v, count:v.count+1} : v) :
+        [...items, {
+            ...product,
+            count:1
+        }]
+        setItems(updatedItems);
     };
 
-    const handleOrderSubmit = () => {
-
+    const handleOrderSubmit = (order) => {
+        if (items.length === 0) {
+            alert("아이템을 추가해 주세요!");
+        } else {
+            axios.post('http://localhost:8080/api/v1/orders', {
+                email: order.email,
+                address: order.address,
+                items: items.map(v => ({
+                    productId: v.productId,
+                    price: v.price,
+                    quantity: v.count
+                }))
+            }).then(
+                v => alert("주문이 정상적으로 접수되었습니다."),
+                e => {
+                    alert("서버 장애");
+                    console.error(e);
+                })
+        }
     };
 
     return (
         <div className="container-fluid">
             <div className="row justify-content-center m-4">
-                <h1 className="text-center">Grids & Circle</h1>
+                <h1 className="text-center">Shopping</h1>
             </div>
             <div className="card">
                 <div className="row">
@@ -39,6 +64,7 @@ function App() {
                     </div>
                 </div>
             </div>
+            <a id="sourceLink" href="https://www.flaticon.com/kr/free-icons/" title="시장 아이콘">시장 아이콘  제작자: Corner Pixel - Flaticon</a>
         </div>
     );
 }
