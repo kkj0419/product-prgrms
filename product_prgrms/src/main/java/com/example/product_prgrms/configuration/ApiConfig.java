@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,16 +20,21 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan(
-        basePackages = {"com.example.product_prgrms"} )
+        basePackages = {"com.example.product_prgrms"})
 @PropertySource("application.yaml")
 public class ApiConfig implements WebMvcConfigurer {
 
     @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**").allowedOrigins("*");
+    }
+
+    @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        var javaTimeModule= new JavaTimeModule();
+        var javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
 
-        var modules= Jackson2ObjectMapperBuilder.json().modules(javaTimeModule);
+        var modules = Jackson2ObjectMapperBuilder.json().modules(javaTimeModule);
         converters.add(0, new MappingJackson2HttpMessageConverter(modules.build()));
 
     }

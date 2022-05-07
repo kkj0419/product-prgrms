@@ -4,4 +4,3 @@ public enum ProductStatus {
     REGULAR_SALE,
     PRE_SALE
 }
-
